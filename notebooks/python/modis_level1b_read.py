@@ -1,6 +1,8 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_filter: all
+#     notebook_metadata_filter: all,-language_info
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -23,8 +25,10 @@ import pprint
 import numpy as np
 from matplotlib import pyplot as plt
 import context
-from a301.utils.data_read import download
-
+# %%
+from pathlib import Path
+print(Path().resolve())
+import context
 # %% [markdown]
 # # Introduction
 #
@@ -40,69 +44,16 @@ from a301.utils.data_read import download
 #      
 
 # %%
-get_data=False
-if get_data:
-    modis_file="MYD021KM.A2013222.2105.061.2018047235850.hdf"
-    download(modis_file)
+modis_files= list(context.data_dir.glob("*hdf"))
+print(list(modis_files))
 
 # %% [markdown]
 # # Reading modis data
 
 # %% [markdown]
-# The general layout of a Modis data file is given in the [modis users guide](https://www.dropbox.com/s/ckd3dv4n7nxc9p0/modis_users_guide.pdf?dl=0) but we'll only need a fraction of the information in that manual.  Modis data is written in [hdf4 format](https://portal.hdfgroup.org/display/HDF4/HDF4), which in python can be read with the [pyhdf module](http://hdfeos.github.io/pyhdf/modules/SD.html#sd-module-key-features).
-#
-#
-# ## Installing pyhdf
-#
-# So far we have used the [anaconda default channel](https://conda.io/docs/user-guide/tasks/manage-channels.html) to install miniconda and other libraries.  Not every conda package is in the default channel.  For example, I have my own channel called [phaustin](https://anaconda.org/phaustin/repo) which I use to distribute software I write. Much of the conda software for the scientific community is distributed in the [conda-forge channel](https://conda-forge.org/) -- this includes the pyhdf module.
-#
-# To install pyhdf from the conda-forge channel, the conda command looks like:
-#
-#     conda install -c conda-forge pyhdf
-#     
-# On Macs, you will also need to update your jpeg library to match pyhdf:
-#
-#     conda install -c conda-forge jpeg
-
-# %% [markdown]
-# ## Downloading the data and reading the file
-#
-# I downloaded my modis hdf file into the downloads folder in my home directory. The pathlib.Path object gives me a way to find that folder, regardless of who I am or whether I'm running on windows or a mac.
-
-# %% [markdown]
-# ## Navigating the file system
-#
-# I need to tell python where my satellite data is kept.  One possibility is to leave it
-# in the browser Downloads folder, which is usually beneath your home directory.
-# Here's how to do this with pathlib:
-
-# %%
-home = Path.home()
-print(home)
-data_dir = home / Path("Downloads")
-print(data_dir)
-
-# %% [markdown]
 # A better choice would be someplace within the a301 folder tree.  I know this notebook is
 # in the tree, so I can create a new folder called a301_code/data, and since I know I am
 # currently in a301/notebooks, I can find it like this:
-
-# %%
-#Path.cwd finds the "current working directory"
-this_dir=Path.cwd()
-#move up one one folder and down to data
-data_dir = this_dir.parent / Path('data')
-
-# %% [markdown]
-# pathlib Path objects have a ton of features.  One of these is "globbing", which means using wildcard characters to find groups of files.
-#
-# See http://pbpython.com/pathlib-intro.html and https://docs.python.org/3.6/library/pathlib.html
-#
-# The next cell shows how globbing is used:
-
-# %%
-hdf_files=list(data_dir.glob("MYD021KM*2110*.hdf"))
-hdf_files
 
 # %% [markdown]
 # ## Using pydf to get metadata
@@ -120,7 +71,7 @@ hdf_files
 # so I need to convert the Path object to a simple string using str()
 
 # %%
-file_name = str(data_dir / Path(hdf_files[0]))
+file_name = str(modis_files[0])
 print(f'reading {file_name}')
 the_file = SD(file_name, SDC.READ)
 stars='*'*50
@@ -136,18 +87,43 @@ help(SD.info)
 # List them below:
 
 # %%
+the_file.attributes()
+
+# %%
 datasets_dict = the_file.datasets()
 
 for idx,sds in enumerate(datasets_dict.keys()):
     print(idx,sds)
 
+# %%
+lat_5km = the_file.select('Latitude') # select sds
+lon_5km = the_file.select('Longitude') # select sds
+print(lat_5km.info())
+print(help(lat_5km.info))
+lat_5km=lat_5km[:,:]
+lon_5km=lon_5km[:,:]
+
 # %% [markdown]
-# ## open one of the datasets (number 4, EV_1KM_Emissive) and get its shape and data type
+# ## get the coase 5km lat/lons
+
+# %%
+import geotiepoints
+lons_1km, lats_1km = geotiepoints.modis5kmto1km(lon_5km, lat_5km)
+
+# %% [markdown]
+# ## Interpolate to 1 km using geotiepoints
+#
+# Use https://python-geotiepoints.readthedocs.io/en/latest/
+
+# %%
+lons_1km.shape
+
+# %% [markdown]
+# ## open one of the datasets (EV_1KM_Emissive) and get its shape and data type
 
 # %%
 longwave_data = the_file.select('EV_1KM_Emissive') # select sds
 print(longwave_data.info())
-help(longwave_data.info)
 
 # %% [markdown]
 # ## Get the first row of the first channel and find its numpy dtype
@@ -171,60 +147,42 @@ longwave_data[0,:,:]
 pprint.pprint(longwave_data.attributes() )
 
 # %% [markdown]
-# ## Print the first 1000 characters of the Metadata.0 string
+# ## Print the first 100 characters of the CoreMetadata.0 string
 #
 # Date, orbit number, etc. are stored in a long string attribute called 'StructMetadata.0'.  The \t character is a tab stop.
 
 # %%
-pprint.pprint(the_file.attributes()['StructMetadata.0'][:1000])
+pprint.pprint(the_file.attributes()['CoreMetadata.0'][:100])
 
 # %% [markdown]
-# # Now plot the data using imshow
+# ## Turn the metadata into a dictionary
 
 # %%
-longwave_bands = the_file.select('Band_1KM_Emissive')
+# read the file
+import satlib.modismeta_read as modisread
+meta_string=the_file.attributes()['CoreMetadata.0']
+meta_dict = modisread.read_mda(meta_string)
+print(meta_dict)
+# %% [markdown]
+# ## Get the wavelength ranges for the bands
 
 # %%
-longwave_bands.attributes()
-
-# %% [markdown]
-# Note that only channels 20 to 36 are in the Emissive dataset (see [the Modis channel listing](https://modis.gsfc.nasa.gov/about/specifications.php))
-
-# %% [markdown]
-# ## find the index for channel 30
-#
-# Count the following and convince yourself that channel 30 is index 9, starting from 0
+longwave_bands = longwave_data.attributes()['band_names']
+band_list=longwave_bands.split(',')
+band_list
 
 # %%
-band_nums=longwave_bands.get()
-print(f'here are the modis channels in the emissive dataset \n{band_nums}')
+from satlib.modis_chans import chan_dict
+for channum in band_list:
+    print(chan_dict[channum])
 
 # %% [markdown]
-# ## Let python figure this out
-#
-# We don't want to have to count, so use numpy.searchsorted to find the the index with value closest to 30
-#
-# We need to turn that index (type int64) into a plain python int so it can be used to specify the channel
-# (float doesn't work)
+# ## Calibrate channel 21
 
 # %%
-ch30_index=np.searchsorted(band_nums,30.)
-print(ch30_index.dtype)
-ch30_index = int(ch30_index)
-print(f'channel 30 is located at index {ch30_index}')
-
-# %% [markdown]
-# ## Read channel 30 at index 9 into a numpy array of type uint16
-
-# %%
-ch30_data = longwave_data[ch30_index,:,:]
-print(ch30_data.shape)
-print(ch30_data.dtype)
-
-# %% [markdown]
-# ## Plot the channel 30 image
-#
-# Use [imshow with a colorbar](https://matplotlib.org/gallery/color/colorbar_basics.html#sphx-glr-gallery-color-colorbar-basics-py)
+scales=longwave_data.attributes()['radiance_scales']
+offsets=longwave_data.attributes()['radiance_offsets']
+scales, offsets
 
 # %%
 fig,ax = plt.subplots(1,1,figsize = (10,14))
@@ -253,13 +211,6 @@ print(ch30_data.shape)
 #
 #
 #
-
-# %%
-scales=longwave_data.attributes()['radiance_scales']
-offsets=longwave_data.attributes()['radiance_offsets']
-ch30_scale=scales[ch30_index]
-ch30_offset=offsets[ch30_index]
-print(f'scale: {ch30_scale}, offset: {ch30_offset}')
 
 # %%
 ch30_calibrated =(ch30_data - ch30_offset)*ch30_scale
