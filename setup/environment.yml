@@ -1,0 +1,20 @@
+name: satpy
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - bokeh
+  - cartopy
+  - dask
+  - geotiff
+  - git
+  - jupyter
+  - jupytext
+  - matplotlib
+  - notebook
+  - pandas
+  - satpy
+  - scipy
+  - xarray
+  - zarr
+prefix: /Users/phil/new37/envs/satpy

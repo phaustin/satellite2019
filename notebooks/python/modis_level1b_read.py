@@ -12,11 +12,27 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   toc:
+#     base_numbering: 1
+#     nav_menu: {}
+#     number_sections: true
+#     sideBar: true
+#     skip_h1_title: false
+#     title_cell: Table of Contents
+#     title_sidebar: Contents
+#     toc_cell: true
+#     toc_position:
+#       height: calc(100% - 180px)
+#       left: 10px
+#       top: 150px
+#       width: 278.391px
+#     toc_section_display: true
+#     toc_window_display: true
 # ---
 
 # %% [markdown] {"toc": true}
 # <h1>Table of Contents<span class="tocSkip"></span></h1>
-# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span></li><li><span><a href="#Reading-modis-data" data-toc-modified-id="Reading-modis-data-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Reading modis data</a></span><ul class="toc-item"><li><span><a href="#Installing-pyhdf" data-toc-modified-id="Installing-pyhdf-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Installing pyhdf</a></span></li><li><span><a href="#Downloading-the-data-and-reading-the-file" data-toc-modified-id="Downloading-the-data-and-reading-the-file-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Downloading the data and reading the file</a></span></li><li><span><a href="#Navigating-the-file-system" data-toc-modified-id="Navigating-the-file-system-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>Navigating the file system</a></span></li><li><span><a href="#Using-pydf-to-get-metadata" data-toc-modified-id="Using-pydf-to-get-metadata-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Using pydf to get metadata</a></span></li><li><span><a href="#Find-all-the-datasets-using-pyhdf.SD.datasets()" data-toc-modified-id="Find-all-the-datasets-using-pyhdf.SD.datasets()-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>Find all the datasets using pyhdf.SD.datasets()</a></span></li><li><span><a href="#open-one-of-the-datasets-(number-4,-EV_1KM_Emissive)-and-get-its-shape-and-data-type" data-toc-modified-id="open-one-of-the-datasets-(number-4,-EV_1KM_Emissive)-and-get-its-shape-and-data-type-2.6"><span class="toc-item-num">2.6&nbsp;&nbsp;</span>open one of the datasets (number 4, EV_1KM_Emissive) and get its shape and data type</a></span></li><li><span><a href="#Get-the-first-row-of-the-first-channel-and-find-its-numpy-dtype" data-toc-modified-id="Get-the-first-row-of-the-first-channel-and-find-its-numpy-dtype-2.7"><span class="toc-item-num">2.7&nbsp;&nbsp;</span>Get the first row of the first channel and find its numpy dtype</a></span></li><li><span><a href="#get-all-the-rows-and-columns-for-the-first-channel" data-toc-modified-id="get-all-the-rows-and-columns-for-the-first-channel-2.8"><span class="toc-item-num">2.8&nbsp;&nbsp;</span>get all the rows and columns for the first channel</a></span></li><li><span><a href="#Find-the-attributes-for-EV_1KM_Emissive" data-toc-modified-id="Find-the-attributes-for-EV_1KM_Emissive-2.9"><span class="toc-item-num">2.9&nbsp;&nbsp;</span>Find the attributes for EV_1KM_Emissive</a></span></li><li><span><a href="#Print-the-first-1000-characters-of-the-Metadata.0-string" data-toc-modified-id="Print-the-first-1000-characters-of-the-Metadata.0-string-2.10"><span class="toc-item-num">2.10&nbsp;&nbsp;</span>Print the first 1000 characters of the Metadata.0 string</a></span></li></ul></li><li><span><a href="#Now-plot-the-data-using-imshow" data-toc-modified-id="Now-plot-the-data-using-imshow-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Now plot the data using imshow</a></span><ul class="toc-item"><li><span><a href="#find-the-index-for-channel-30" data-toc-modified-id="find-the-index-for-channel-30-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>find the index for channel 30</a></span></li><li><span><a href="#Let-python-figure-this-out" data-toc-modified-id="Let-python-figure-this-out-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Let python figure this out</a></span></li><li><span><a href="#Read-channel-30-at-index-9-into-a-numpy-array-of-type-uint16" data-toc-modified-id="Read-channel-30-at-index-9-into-a-numpy-array-of-type-uint16-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Read channel 30 at index 9 into a numpy array of type uint16</a></span></li><li><span><a href="#Plot-the-channel-30-image" data-toc-modified-id="Plot-the-channel-30-image-3.4"><span class="toc-item-num">3.4&nbsp;&nbsp;</span>Plot the channel 30 image</a></span></li></ul></li><li><span><a href="#For-Wednesday-(don't-need-to-hand-in)" data-toc-modified-id="For-Wednesday-(don't-need-to-hand-in)-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>For Wednesday (don't need to hand in)</a></span></li><li><span><a href="#Write-the-calibrated-channel-out-for-safekeeping" data-toc-modified-id="Write-the-calibrated-channel-out-for-safekeeping-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Write the calibrated channel out for safekeeping</a></span></li><li><span><a href="#Move-the-file-to-data_dir" data-toc-modified-id="Move-the-file-to-data_dir-6"><span class="toc-item-num">6&nbsp;&nbsp;</span>Move the file to data_dir</a></span></li></ul></div>
+# <div class="toc"><ul class="toc-item"><li><span><a href="#Introduction" data-toc-modified-id="Introduction-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Introduction</a></span></li><li><span><a href="#Reading-modis-data" data-toc-modified-id="Reading-modis-data-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Reading modis data</a></span><ul class="toc-item"><li><span><a href="#Using-pydf-to-get-metadata" data-toc-modified-id="Using-pydf-to-get-metadata-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>Using pydf to get metadata</a></span></li><li><span><a href="#Find-all-the-datasets-using-pyhdf.SD.datasets()" data-toc-modified-id="Find-all-the-datasets-using-pyhdf.SD.datasets()-2.2"><span class="toc-item-num">2.2&nbsp;&nbsp;</span>Find all the datasets using pyhdf.SD.datasets()</a></span></li><li><span><a href="#get-the-coase-5km-lat/lons" data-toc-modified-id="get-the-coase-5km-lat/lons-2.3"><span class="toc-item-num">2.3&nbsp;&nbsp;</span>get the coase 5km lat/lons</a></span></li><li><span><a href="#Interpolate-to-1-km-using-geotiepoints" data-toc-modified-id="Interpolate-to-1-km-using-geotiepoints-2.4"><span class="toc-item-num">2.4&nbsp;&nbsp;</span>Interpolate to 1 km using geotiepoints</a></span></li><li><span><a href="#open-one-of-the-datasets-(EV_1KM_Emissive)-and-get-its-shape-and-data-type" data-toc-modified-id="open-one-of-the-datasets-(EV_1KM_Emissive)-and-get-its-shape-and-data-type-2.5"><span class="toc-item-num">2.5&nbsp;&nbsp;</span>open one of the datasets (EV_1KM_Emissive) and get its shape and data type</a></span></li><li><span><a href="#Get-the-first-row-of-the-first-channel-and-find-its-numpy-dtype" data-toc-modified-id="Get-the-first-row-of-the-first-channel-and-find-its-numpy-dtype-2.6"><span class="toc-item-num">2.6&nbsp;&nbsp;</span>Get the first row of the first channel and find its numpy dtype</a></span></li><li><span><a href="#get-all-the-rows-and-columns-for-the-first-channel" data-toc-modified-id="get-all-the-rows-and-columns-for-the-first-channel-2.7"><span class="toc-item-num">2.7&nbsp;&nbsp;</span>get all the rows and columns for the first channel</a></span></li><li><span><a href="#Find-the-attributes-for-EV_1KM_Emissive" data-toc-modified-id="Find-the-attributes-for-EV_1KM_Emissive-2.8"><span class="toc-item-num">2.8&nbsp;&nbsp;</span>Find the attributes for EV_1KM_Emissive</a></span></li><li><span><a href="#Print-the-first-100-characters-of-the-CoreMetadata.0-string" data-toc-modified-id="Print-the-first-100-characters-of-the-CoreMetadata.0-string-2.9"><span class="toc-item-num">2.9&nbsp;&nbsp;</span>Print the first 100 characters of the CoreMetadata.0 string</a></span></li><li><span><a href="#Turn-the-metadata-into-a-dictionary" data-toc-modified-id="Turn-the-metadata-into-a-dictionary-2.10"><span class="toc-item-num">2.10&nbsp;&nbsp;</span>Turn the metadata into a dictionary</a></span></li><li><span><a href="#Get-the-wavelength-ranges-for-the-bands" data-toc-modified-id="Get-the-wavelength-ranges-for-the-bands-2.11"><span class="toc-item-num">2.11&nbsp;&nbsp;</span>Get the wavelength ranges for the bands</a></span></li><li><span><a href="#Calibrate-channel-21" data-toc-modified-id="Calibrate-channel-21-2.12"><span class="toc-item-num">2.12&nbsp;&nbsp;</span>Calibrate channel 21</a></span></li></ul></li><li><span><a href="#For-Wednesday-(don't-need-to-hand-in)" data-toc-modified-id="For-Wednesday-(don't-need-to-hand-in)-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>For Wednesday (don't need to hand in)</a></span></li><li><span><a href="#Write-the-calibrated-channel-out-for-safekeeping" data-toc-modified-id="Write-the-calibrated-channel-out-for-safekeeping-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>Write the calibrated channel out for safekeeping</a></span></li><li><span><a href="#Move-the-file-to-data_dir" data-toc-modified-id="Move-the-file-to-data_dir-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>Move the file to data_dir</a></span></li></ul></div>
 
 # %%
 from pathlib import Path
@@ -32,7 +48,7 @@ import context
 # %% [markdown]
 # # Introduction
 #
-# This notebook assumes that you have gone to the LAADS DAAC archive and downloaded a Modis Level1b 5 minute granule from the Aqua satellite (a MYD021KM hdf file).  Below we use the pyhdf module to read a single channel (channel 30) centered at 9.7 microns according to [the Modis channel listing](https://modis.gsfc.nasa.gov/about/specifications.php).  We plot the raw counts from that channel using the 
+# This notebook assumes that you have gone to the LAADS DAAC archive and downloaded a Modis Level1b 5 minute granule from the Aqua satellite (a MYD021KM hdf file).  Below we use the pyhdf module to read a single channel (channel 31) centered at 9.7 microns according to [the Modis channel listing](https://modis.gsfc.nasa.gov/about/specifications.php).  We plot the raw counts from that channel using the 
 # [matplotlib imshow](https://matplotlib.org/examples/images_contours_and_fields/image_demo.html) function to display the raw image
 #
 # If you don't have a MYD021KM file you can grab mine by changing
@@ -95,7 +111,7 @@ datasets_dict = the_file.datasets()
 for idx,sds in enumerate(datasets_dict.keys()):
     print(idx,sds)
 
-# %%
+# %% {"scrolled": true}
 lat_5km = the_file.select('Latitude') # select sds
 lon_5km = the_file.select('Longitude') # select sds
 print(lat_5km.info())
@@ -183,22 +199,27 @@ for channum in band_list:
 scales=longwave_data.attributes()['radiance_scales']
 offsets=longwave_data.attributes()['radiance_offsets']
 scales, offsets
+ch21_scale, ch31_scale = scales
+ch21_offset, ch31_offset = offsets
+
+# %%
+ch31_data = longwave_data[1,:,:]
 
 # %%
 fig,ax = plt.subplots(1,1,figsize = (10,14))
-CS=ax.imshow(ch30_data)
+CS=ax.imshow(ch31_data)
 cax=fig.colorbar(CS)
 ax.set_title('uncalibrated counts')
 #
 # add a label to the colorbar and flip it around 270 degrees
 #
-out=cax.ax.set_ylabel('Chan 30 raw counts')
+out=cax.ax.set_ylabel('Chan 31 raw counts')
 out.set_verticalalignment('bottom')
 out.set_rotation(270)
-print(ch30_data.shape)
+print(ch31_data.shape)
 
 # %% [markdown]
-# # For Wednesday (don't need to hand in)
+# # Now calibrate it
 #
 # To turn the raw counts into pixel radiances, you need to apply equation 5.8 on p. 36 of the 
 # [modis users guide](https://www.dropbox.com/s/ckd3dv4n7nxc9p0/modis_users_guide.pdf?dl=0):
@@ -207,26 +228,26 @@ print(ch30_data.shape)
 #
 # We have just read the RawData,  the offset and the scale are stored in two vectors that are attributes of the Emissive dataset.  Make a version of the figure above, but plot Channel 30 radiance (in W/m^2/micron/sr), rather than raw counts.
 #
-# Hint:  Here is how you get the scale and offset for Channel 30.
+# Hint:  Here is how you get the scale and offset for Channel 31.
 #
 #
 #
 
 # %%
-ch30_calibrated =(ch30_data - ch30_offset)*ch30_scale
+ch31_calibrated =(ch31_data - ch31_offset)*ch31_scale
 
 # %%
 fig,ax = plt.subplots(1,1,figsize = (10,14))
-CS=ax.imshow(ch30_calibrated)
+CS=ax.imshow(ch31_calibrated)
 cax=fig.colorbar(CS)
-ax.set_title('Channel 30 radiance')
+ax.set_title('Channel 31 radiance')
 #
 # add a label to the colorbar and flip it around 270 degrees
 #
 out=cax.ax.set_ylabel('Chan radiance $(W\,m^{-2}\,\mu m^{-1}\,sr^{-1})$')
 out.set_verticalalignment('bottom')
 out.set_rotation(270)
-ch30_calibrated.shape
+ch31_calibrated.shape
 
 # %% [markdown]
 # # Write the calibrated channel out for safekeeping
@@ -235,11 +256,11 @@ ch30_calibrated.shape
 
 # %%
 # Create an HDF file
-outname="ch30_out.hdf"
+outname="ch31_out.hdf"
 sd = SD(outname, SDC.WRITE | SDC.CREATE)
 
 # Create a dataset
-sds = sd.create("ch30", SDC.FLOAT64, ch30_calibrated.shape)
+sds = sd.create("ch31", SDC.FLOAT64, ch31_calibrated.shape)
 
 # Fill the dataset with a fill value
 sds.setfillvalue(0)
@@ -254,7 +275,7 @@ dim2.setname("col")
 sds.units = "W/m^2/micron/sr"
 
 # Write data
-sds[:,:] = ch30_calibrated
+sds[:,:] = ch31_calibrated
 
 # Close the dataset
 sds.endaccess()
@@ -270,7 +291,7 @@ sd.end()
 
 # %%
 local_file = Path.cwd() / Path(outname)
-to_file = data_dir / Path(outname)
+to_file = context.data_dir / Path(outname)
 local_file.rename(to_file)
 
 # %%
