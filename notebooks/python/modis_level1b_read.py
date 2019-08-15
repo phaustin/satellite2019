@@ -37,14 +37,21 @@
 # %%
 from pathlib import Path
 from pyhdf.SD import SD, SDC
+import sys
 import pprint
 import numpy as np
 from matplotlib import pyplot as plt
-import context
+import site
+print(Path().resolve())
+site.addsitedir(Path().resolve())
+print(sys.path)
+# %%
+# !ls
+
 # %%
 from pathlib import Path
 print(Path().resolve())
-import context
+import context_test as context
 # %% [markdown]
 # # Introduction
 #
